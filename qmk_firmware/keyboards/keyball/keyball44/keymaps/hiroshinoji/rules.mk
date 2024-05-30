@@ -1,0 +1,9 @@
+RGBLIGHT_ENABLE = yes
+
+OLED_ENABLE = yes
+
+BOOTLOADER = caterina
+
+KEY_OVERRIDE_ENABLE = yes
+
+LTO_ENABLE = yes
