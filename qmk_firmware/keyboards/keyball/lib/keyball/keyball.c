@@ -221,6 +221,20 @@ __attribute__((weak)) void keyball_on_apply_motion_to_mouse_scroll(keyball_motio
     }
 #elif KEYBALL_SCROLLSNAP_ENABLE == 2
     // New behavior
+    // Added by @hiroshinoji to achieve a temporally stable direction move.
+    static uint32_t scroll_last;
+    uint32_t now = timer_read32();
+    if (r->h != 0 || r->v != 0) {
+      // TODO: Make 200 a variable.
+      if (TIMER_DIFF_32(now, scroll_last) > 400) {
+        if (abs(r->v) > abs(r->h)) {
+          keyball_set_scrollsnap_mode(KEYBALL_SCROLLSNAP_MODE_VERTICAL);
+        } else {
+          keyball_set_scrollsnap_mode(KEYBALL_SCROLLSNAP_MODE_HORIZONTAL);
+        }
+      }
+      scroll_last = now;
+    }
     switch (keyball_get_scrollsnap_mode()) {
         case KEYBALL_SCROLLSNAP_MODE_VERTICAL:
             r->h = 0;
