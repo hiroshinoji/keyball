@@ -33,6 +33,9 @@ enum my_keycodes {
   R_ARW = SAFE_RANGE,
   R_DARW,
   JA_SPC_SFT,
+  PLS_EQL,
+  MNS_EQL,
+  PRD_EQL,
 };
 
 // #define SFT_Z LSFT_T(KC_Z)
@@ -41,7 +44,8 @@ enum my_keycodes {
 #define CTL_EN LCTL_T(KC_LNG2)
 // #define BALL_JA LT(_BALL, KC_LNG1)
 // #define SYM_TAB LT(_SYMBOL, KC_TAB)
-#define ALT_BS RALT_T(KC_BSPC)
+// #define ALT_BS RALT_T(KC_BSPC)
+#define ALT_ENT RALT_T(KC_ENT)
 #define SCRL_COMM LT(_SCROLL, KC_COMM)
 // #define ALT_ENT RALT_T(KC_ENT)
 #define SFT_SPC RSFT_T(KC_SPC)
@@ -50,9 +54,11 @@ enum my_keycodes {
 // #define CMD_ENT LGUI_T(KC_ENT)
 #define SYM_JA LT(_SYMBOL, KC_LNG1)
 #define NUM_TAB LT(_NUM_PAD, KC_TAB)
-#define SYM_ENT LT(_SYMBOL, KC_ENT)
+// #define SYM_ENT LT(_SYMBOL, KC_ENT)
+#define SYM_BS LT(_SYMBOL, KC_BSPC)
 #define CMD_JA LGUI_T(KC_LNG1)
 #define BALL_ESC LT(_BALL, KC_ESC)
+#define SFT_PLS LSFT_T(KC_PLUS)
 
 #define MCTL LCTL(KC_UP)
 #define LUNCPAD LGUI(KC_LBRC)  // This shortcut (cmd + [) should be on in OS setting.
@@ -61,6 +67,8 @@ enum my_keycodes {
 #define CTL_RGT LCTL(KC_RIGHT)
 #define CMD_SCRL LM(_SCROLL, MOD_LGUI) // cmd + scroll -> zoom is registered in SteerMouse.
 #define ALT_SCRL LM(_SCROLL, MOD_LALT) // alt + left/right -> switch pages is registered in SteerMouse.
+#define CMAL_SCRL LM(_SCROLL, MOD_LGUI | MOD_LALT) // cmd+alt + left/right -> mission control in SteerMouse.
+#define CMCT_SCRL LM(_SCROLL, MOD_LGUI | MOD_LCTL) // cmd+alt + left/right -> app switch in SteerMouse.
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -68,8 +76,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_universal(
     KC_ASTR  , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , KC_GRV   ,
     KC_MINS  , KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , KC_SCLN  , KC_QUOT  ,
-    KC_PLUS  , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , SCRL_COMM, KC_DOT   , KC_SLSH  , KC_QUES  ,
-                          BALL_ESC , NUM_TAB  , CTL_EN   , SYM_ENT  , CMD_JA ,                    ALT_BS   , SFT_SPC  , _______  , _______  , KC_CAPS
+    SFT_PLS  , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , SCRL_COMM, KC_DOT   , KC_SLSH  , KC_QUES  ,
+                          BALL_ESC , NUM_TAB  , CTL_EN   , SYM_BS   , CMD_JA ,                    ALT_ENT  , SFT_SPC  , _______  , _______  , KC_CAPS
   ),
 
   // The difference from _QWERTY is that this layer disables shift-key layer taps.
@@ -88,15 +96,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_SYMBOL] = LAYOUT_universal(
-    KC_ASTR  , XXXXXXX  , XXXXXXX  , XXXXXXX  , R_DARW   , R_ARW    ,                                        XXXXXXX  , KC_LBRC  , KC_RBRC  , KC_CIRC  , XXXXXXX  , KC_TILD   ,
-    KC_MINS  , KC_AT    , KC_HASH  , KC_DLR   , KC_LT    , KC_GT    ,                                        KC_PERC  , KC_LPRN  , KC_RPRN  , KC_AMPR  , KC_COLN  , KC_DQUO   ,
-    KC_PLUS  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , KC_LCBR  , KC_RCBR  , KC_PIPE  , KC_BSLS  , KC_EXLM   ,
+    PRD_EQL  , XXXXXXX  , XXXXXXX  , XXXXXXX  , R_DARW   , R_ARW    ,                                        XXXXXXX  , KC_LBRC  , KC_RBRC  , KC_CIRC  , XXXXXXX  , KC_TILD   ,
+    MNS_EQL  , KC_AT    , KC_HASH  , KC_DLR   , KC_LT    , KC_GT    ,                                        KC_PERC  , KC_LPRN  , KC_RPRN  , KC_AMPR  , KC_COLN  , KC_DQUO   ,
+    PLS_EQL  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , KC_LCBR  , KC_RCBR  , KC_PIPE  , KC_BSLS  , KC_EXLM   ,
                           _______  , _______  , _______  , _______  , _______  ,                  KC_EQL   , KC_UNDS  , _______  , _______  , _______
   ),
 
   [_BALL] = LAYOUT_universal(
     XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , MCTL     , EXPO     , LUNCPAD  , XXXXXXX  , XXXXXXX  ,
-    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , _______  ,                                        XXXXXXX  , XXXXXXX  , CMD_SCRL , ALT_SCRL , XXXXXXX  , XXXXXXX  ,
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , _______  ,                                        XXXXXXX  , CMCT_SCRL, CMD_SCRL , ALT_SCRL , CMAL_SCRL, XXXXXXX  ,
     XXXXXXX  , _______  ,LGUI(KC_X),LGUI(KC_C),LGUI(KC_V), XXXXXXX  ,                                        XXXXXXX  , KC_BTN1 ,MO(_SCROLL),KC_BTN2   , XXXXXXX  , XXXXXXX  ,
                           _______  , _______  , _______  , _______  , _______  ,                  _______  , KC_SPC   , XXXXXXX  , XXXXXXX  , XXXXXXX
   ),
@@ -143,7 +151,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     case CMD_JA:
     case CTL_EN:
     case NUM_TAB:
-    case SYM_ENT:
+    case SYM_BS:
     // case SFT_SPC:
       // Immediately select the hold action when another key is pressed.
       return true;
@@ -207,6 +215,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case R_ARW:
       if (record->event.pressed) {
         SEND_STRING("->");
+      }
+      break;
+    case PRD_EQL:
+      if (record->event.pressed) {
+        SEND_STRING("*=");
+      }
+      break;
+    case MNS_EQL:
+      if (record->event.pressed) {
+        SEND_STRING("-=");
+      }
+      break;
+    case PLS_EQL:
+      if (record->event.pressed) {
+        SEND_STRING("+=");
+      }
+      break;
+    case SFT_PLS:
+      if (record->tap.count && record->event.pressed) {
+        // We need to manually define the tap behavior of SFT_PLS, because KC_PLUS requires 16 bits.
+        tap_code16(KC_PLUS);  // Send KC_PLUS on tap
+        return false;         // Return false to ignore further processing of key
       }
       break;
   }
