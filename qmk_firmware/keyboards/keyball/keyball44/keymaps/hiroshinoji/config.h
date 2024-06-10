@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
-#define AUTO_MOUSE_TIME 1000
-#define AUTO_MOUSE_THRESHOLD 20
+#define AUTO_MOUSE_TIME 1200
+#define AUTO_MOUSE_THRESHOLD 10
 
 #define KEYBALL_SCROLLSNAP_ENABLE 2
