@@ -38,7 +38,7 @@ enum my_keycodes {
   PRD_EQL,
 };
 
-// #define SFT_Z LSFT_T(KC_Z)
+#define SFT_Z LSFT_T(KC_Z)
 #define SFT_SLSH RSFT_T(KC_SLSH)
 // #define NUM_G LT(_NUM_PAD, KC_G)
 #define CTL_EN LCTL_T(KC_LNG2)
@@ -53,12 +53,14 @@ enum my_keycodes {
 // #define NUM_ESC LT(_NUM_PAD, KC_ESC)
 // #define CMD_ENT LGUI_T(KC_ENT)
 #define SYM_JA LT(_SYMBOL, KC_LNG1)
-#define NUM_TAB LT(_NUM_PAD, KC_TAB)
+// #define NUM_TAB LT(_NUM_PAD, KC_TAB)
 // #define SYM_ENT LT(_SYMBOL, KC_ENT)
-#define SYM_BS LT(_SYMBOL, KC_BSPC)
+// #define SYM_BS LT(_SYMBOL, KC_BSPC)
 #define CMD_JA LGUI_T(KC_LNG1)
-#define BALL_ESC LT(_BALL, KC_ESC)
+// #define BALL_ESC LT(_BALL, KC_ESC)
 #define SFT_PLS LSFT_T(KC_PLUS)
+#define NUM_MINS LT(_NUM_PAD, KC_MINS)
+#define SYM_TAB LT(_SYMBOL, KC_TAB)
 
 #define MCTL LCTL(KC_UP)
 #define LUNCPAD LGUI(KC_LBRC)  // This shortcut (cmd + [) should be on in OS setting.
@@ -74,10 +76,10 @@ enum my_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // keymap for default
   [_QWERTY] = LAYOUT_universal(
-    KC_ASTR  , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , KC_GRV   ,
-    KC_MINS  , KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , KC_SCLN  , KC_QUOT  ,
-    SFT_PLS  , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , SCRL_COMM, KC_DOT   , KC_SLSH  , KC_QUES  ,
-                          BALL_ESC , NUM_TAB  , CTL_EN   , SYM_BS   , CMD_JA ,                    ALT_ENT  , SFT_SPC  , _______  , _______  , KC_CAPS
+    KC_BSPC  , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , KC_GRV   ,
+    NUM_MINS , KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , KC_SCLN  , KC_QUOT  ,
+    XXXXXXX  , SFT_Z    , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , SCRL_COMM, KC_DOT   , KC_SLSH  , KC_QUES  ,
+                          KC_ESC   , MO(_BALL), CTL_EN   , SYM_TAB  , CMD_JA ,                   ALT_ENT  , SFT_SPC  , _______  , _______  , KC_CAPS
   ),
 
   // The difference from _QWERTY is that this layer disables shift-key layer taps.
@@ -89,23 +91,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_NUM_PAD] = LAYOUT_universal(
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        KC_ASTR  , KC_7     , KC_8     , KC_9     , _______  , _______  ,
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        KC_MINS  , KC_4     , KC_5     , KC_6     , _______  , _______  ,
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        KC_PLUS  , KC_1     , KC_2     , KC_3     , _______  , _______  ,
-                          _______  , _______  , _______  , _______  , _______  ,                  KC_EQL   , KC_0     , _______  , _______  , _______
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        XXXXXXX  , KC_7     , KC_8     , KC_9     , KC_ASTR  , _______  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        KC_EQL   , KC_4     , KC_5     , KC_6     , KC_MINS  , _______  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        XXXXXXX  , KC_1     , KC_2     , KC_3     , KC_PLUS  , _______  ,
+                          _______  , _______  , _______  , _______  , _______  ,                  XXXXXXX   , KC_0     , _______  , _______  , _______
   ),
 
   [_SYMBOL] = LAYOUT_universal(
-    PRD_EQL  , XXXXXXX  , XXXXXXX  , XXXXXXX  , R_DARW   , R_ARW    ,                                        XXXXXXX  , KC_LBRC  , KC_RBRC  , KC_CIRC  , XXXXXXX  , KC_TILD   ,
-    MNS_EQL  , KC_AT    , KC_HASH  , KC_DLR   , KC_LT    , KC_GT    ,                                        KC_PERC  , KC_LPRN  , KC_RPRN  , KC_AMPR  , KC_COLN  , KC_DQUO   ,
-    PLS_EQL  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , KC_LCBR  , KC_RCBR  , KC_PIPE  , KC_BSLS  , KC_EXLM   ,
-                          _______  , _______  , _______  , _______  , _______  ,                  KC_EQL   , KC_UNDS  , _______  , _______  , _______
+    PRD_EQL  , XXXXXXX  , XXXXXXX  , R_DARW   , R_ARW    , XXXXXXX  ,                                        XXXXXXX  , KC_LBRC  , KC_RBRC  , KC_CIRC  , KC_PERC  , KC_TILD   ,
+    MNS_EQL  , KC_AT    , KC_HASH  , KC_DLR   , KC_PLUS  , KC_ASTR  ,                                        KC_EQL   , KC_LPRN  , KC_RPRN  , KC_AMPR  , KC_COLN  , KC_DQUO   ,
+    PLS_EQL  , XXXXXXX  , XXXXXXX  , KC_LT    , KC_GT    , XXXXXXX  ,                                        XXXXXXX  , KC_LCBR  , KC_RCBR  , KC_PIPE  , KC_BSLS  , KC_EXLM   ,
+                          _______  , _______  , _______  , _______  , _______  ,                  XXXXXXX  , KC_UNDS , _______  , _______  , _______
   ),
 
   [_BALL] = LAYOUT_universal(
     XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , MCTL     , EXPO     , LUNCPAD  , XXXXXXX  , XXXXXXX  ,
-    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , _______  ,                                        XXXXXXX  , CMCT_SCRL, CMD_SCRL , ALT_SCRL , CMAL_SCRL, XXXXXXX  ,
-    XXXXXXX  , _______  ,LGUI(KC_X),LGUI(KC_C),LGUI(KC_V), XXXXXXX  ,                                        XXXXXXX  , KC_BTN1 ,MO(_SCROLL),KC_BTN2   , XXXXXXX  , XXXXXXX  ,
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , CMCT_SCRL, CMD_SCRL , ALT_SCRL , CMAL_SCRL, XXXXXXX  ,
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , KC_BTN1 ,MO(_SCROLL),KC_BTN2   , XXXXXXX  , XXXXXXX  ,
                           _______  , _______  , _______  , _______  , _______  ,                  _______  , KC_SPC   , XXXXXXX  , XXXXXXX  , XXXXXXX
   ),
 
@@ -124,35 +126,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const key_override_t backspace_key_override = ko_make_basic(MOD_MASK_CTRL, KC_H, KC_BSPC);
 const key_override_t enter_key_override = ko_make_basic(MOD_MASK_CTRL, KC_M, KC_ENT);
 const key_override_t cmd_enter_key_override = ko_make_basic(MOD_MASK_GUI, KC_M, LGUI(KC_ENT));
+const key_override_t app_next_key_override = ko_make_basic(MOD_MASK_GUI, KC_K, LGUI(KC_TAB));
+const key_override_t app_prev_key_override = ko_make_basic(MOD_MASK_GUI, KC_J, LGUI(KC_TILD));
 
 const key_override_t **key_overrides = (const key_override_t *[]){
   &backspace_key_override,
   &enter_key_override,
   &cmd_enter_key_override,
+  &app_next_key_override,
+  &app_prev_key_override,
   NULL
 };
 
-// uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-//   switch (keycode) {
-//     case CMD_JA:
-//     case CTL_EN:
-//     case NUM_TAB:
-//     case SFT_SPC:
-//     case ALT_BS:
-//     case BALL_ESC:
-//       return 200;
-//     default:
-//       return TAPPING_TERM;
-//    }
-// }
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case SFT_SPC:
+    case NUM_MINS:
+    case SYM_TAB:
+      return 170;
+    default:
+      return TAPPING_TERM;
+   }
+}
+
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SFT_SPC:
+            return 100;
+        default:
+            return QUICK_TAP_TERM;
+    }
+}
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case CMD_JA:
     case CTL_EN:
-    case NUM_TAB:
-    case SYM_BS:
-    // case SFT_SPC:
+      // case SFT_SPC:
       // Immediately select the hold action when another key is pressed.
       return true;
     default:
