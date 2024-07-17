@@ -22,9 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum layer_number {
   _QWERTY = 0,
-  _QWERTY_JA,
+  _SYMBOL1,
+  _SYMBOL2,
+  _SYMBOL3,
   _NUM_PAD,
-  _SYMBOL,
   _BALL,
   _SCROLL,
 };
@@ -36,31 +37,22 @@ enum my_keycodes {
   PLS_EQL,
   MNS_EQL,
   PRD_EQL,
+  CMD_SPC,
 };
 
 #define SFT_Z LSFT_T(KC_Z)
 #define SFT_SLSH RSFT_T(KC_SLSH)
-// #define NUM_G LT(_NUM_PAD, KC_G)
-#define CTL_EN LCTL_T(KC_LNG2)
-// #define BALL_JA LT(_BALL, KC_LNG1)
-// #define SYM_TAB LT(_SYMBOL, KC_TAB)
-// #define ALT_BS RALT_T(KC_BSPC)
+#define CTL_LANG LCTL_T(CMD_SPC)
 #define ALT_ENT RALT_T(KC_ENT)
 #define SCRL_COMM LT(_SCROLL, KC_COMM)
-// #define ALT_ENT RALT_T(KC_ENT)
 #define SFT_SPC RSFT_T(KC_SPC)
-// #define NUM_ENT LT(_NUM_PAD, KC_ENT)
-// #define NUM_ESC LT(_NUM_PAD, KC_ESC)
-// #define CMD_ENT LGUI_T(KC_ENT)
-#define SYM_JA LT(_SYMBOL, KC_LNG1)
-// #define NUM_TAB LT(_NUM_PAD, KC_TAB)
-// #define SYM_ENT LT(_SYMBOL, KC_ENT)
-// #define SYM_BS LT(_SYMBOL, KC_BSPC)
-#define CMD_JA LGUI_T(KC_LNG1)
-// #define BALL_ESC LT(_BALL, KC_ESC)
 #define SFT_PLS LSFT_T(KC_PLUS)
 #define NUM_MINS LT(_NUM_PAD, KC_MINS)
-#define SYM_TAB LT(_SYMBOL, KC_TAB)
+#define SYM_TAB LT(_SYMBOL1, KC_TAB)
+#define LGUI_BSPC LGUI_T(KC_BSPC)  // currently unused because this key combination can be a shortcut.
+#define L_NUM MO(_NUM_PAD)
+#define L_SYM2 MO(_SYMBOL2)
+#define L_SYM3 MO(_SYMBOL3)
 
 #define MCTL LCTL(KC_UP)
 #define LUNCPAD LGUI(KC_LBRC)  // This shortcut (cmd + [) should be on in OS setting.
@@ -76,32 +68,38 @@ enum my_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // keymap for default
   [_QWERTY] = LAYOUT_universal(
-    KC_BSPC  , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , KC_GRV   ,
-    NUM_MINS , KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , KC_SCLN  , KC_QUOT  ,
-    XXXXXXX  , SFT_Z    , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , SCRL_COMM, KC_DOT   , KC_SLSH  , KC_QUES  ,
-                          KC_ESC   , MO(_BALL), CTL_EN   , SYM_TAB  , CMD_JA ,                   ALT_ENT  , SFT_SPC  , _______  , _______  , KC_CAPS
+    XXXXXXX  , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , KC_GRV   ,
+    XXXXXXX  , KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , KC_SCLN  , XXXXXXX  ,
+    KC_BSPC  , SFT_Z    , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , SCRL_COMM, KC_DOT   , KC_SLSH  , XXXXXXX  ,
+                          KC_ESC   , MO(_BALL), CTL_LANG , SYM_TAB  , KC_LGUI  ,                  ALT_ENT  , SFT_SPC  , _______  , _______  , KC_CAPS
   ),
 
-  // The difference from _QWERTY is that this layer disables shift-key layer taps.
-  [_QWERTY_JA] = LAYOUT_universal(
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
-                          _______  , _______  , _______  , _______  , _______ ,                   _______  , _______  , _______  , _______  , _______
+  [_SYMBOL1] = LAYOUT_universal(
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , KC_LBRC  , KC_RBRC  , KC_QUOT  , KC_GRV   , XXXXXXX  ,
+    XXXXXXX  , L_NUM    , L_SYM2   , KC_DLR   , KC_AT    , L_SYM3   ,                                        KC_HASH  , KC_LPRN  , KC_RPRN  , KC_MINS  , KC_COLN  , XXXXXXX  ,
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , KC_LCBR  , KC_RCBR  , KC_QUES  , KC_BSLS  , XXXXXXX  ,
+                          _______  , _______  , _______  , _______  , _______  ,                  KC_EQL   , KC_UNDS  , _______  , _______  , _______
+  ),
+
+  [_SYMBOL2] = LAYOUT_universal(
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , KC_DQUO  , KC_TILD  , XXXXXXX  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        KC_ASTR  , KC_PERC  , KC_CIRC  , KC_PLUS  , _______  , XXXXXXX  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , KC_LT    , KC_GT    , KC_EXLM  , KC_PIPE  , XXXXXXX  ,
+                          _______  , _______  , _______  , _______  , _______  ,                  _______  , KC_UNDS  , _______  , _______  , _______
+  ),
+
+  [_SYMBOL3] = LAYOUT_universal(
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , PRD_EQL  , _______  , XXXXXXX  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , R_ARW    , R_DARW   , MNS_EQL  , _______  , XXXXXXX  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , PLS_EQL  , _______  , XXXXXXX  ,
+                          _______  , _______  , _______  , _______  , _______  ,                  _______  , _______  , _______  , _______  , _______
   ),
 
   [_NUM_PAD] = LAYOUT_universal(
     _______  , _______  , _______  , _______  , _______  , _______  ,                                        XXXXXXX  , KC_7     , KC_8     , KC_9     , KC_ASTR  , _______  ,
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        KC_EQL   , KC_4     , KC_5     , KC_6     , KC_MINS  , _______  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        XXXXXXX  , KC_4     , KC_5     , KC_6     , KC_MINS  , _______  ,
     _______  , _______  , _______  , _______  , _______  , _______  ,                                        XXXXXXX  , KC_1     , KC_2     , KC_3     , KC_PLUS  , _______  ,
-                          _______  , _______  , _______  , _______  , _______  ,                  XXXXXXX   , KC_0     , _______  , _______  , _______
-  ),
-
-  [_SYMBOL] = LAYOUT_universal(
-    PRD_EQL  , XXXXXXX  , XXXXXXX  , R_DARW   , R_ARW    , XXXXXXX  ,                                        XXXXXXX  , KC_LBRC  , KC_RBRC  , KC_CIRC  , KC_PERC  , KC_TILD   ,
-    MNS_EQL  , KC_AT    , KC_HASH  , KC_DLR   , KC_PLUS  , KC_ASTR  ,                                        KC_EQL   , KC_LPRN  , KC_RPRN  , KC_AMPR  , KC_COLN  , KC_DQUO   ,
-    PLS_EQL  , XXXXXXX  , XXXXXXX  , KC_LT    , KC_GT    , XXXXXXX  ,                                        XXXXXXX  , KC_LCBR  , KC_RCBR  , KC_PIPE  , KC_BSLS  , KC_EXLM   ,
-                          _______  , _______  , _______  , _______  , _______  ,                  XXXXXXX  , KC_UNDS , _______  , _______  , _______
+                          _______  , _______  , _______  , _______  , _______  ,                  KC_EQL   , KC_0     , _______  , _______  , _______
   ),
 
   [_BALL] = LAYOUT_universal(
@@ -141,7 +139,6 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case SFT_SPC:
-    case NUM_MINS:
     case SYM_TAB:
       return 170;
     default:
@@ -160,8 +157,8 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case CMD_JA:
-    case CTL_EN:
+    case CTL_LANG:
+    case LGUI_BSPC:
       // case SFT_SPC:
       // Immediately select the hold action when another key is pressed.
       return true;
@@ -189,14 +186,15 @@ void keyboard_post_init_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case CTL_EN:
+    case CTL_LANG:
       // https://getreuer.info/posts/keyboards/triggers/index.html
-      if (record->tap.count > 0) {
-        if (!record->event.pressed) {  // tapped -> released.
-          layer_off(_QWERTY_JA);
-          return true;
+      if (record->tap.count) {
+        if (record->event.pressed) {
+          // https://github.com/qmk/qmk_firmware/blob/master/docs/mod_tap.md#changing-hold-function
+          // Mod tap for LGUI(KC_SPC).
+          tap_code16(LGUI(KC_SPC));
+          return false;
         }
-        return true;
       } else {
         if (record->event.pressed) {  // tapped -> hold.
           // We want to exit _BALL layer immediately when we push CTRL.
@@ -209,14 +207,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           return true;
         }
       }
-    case CMD_JA:
-      if (record->tap.count > 0) {
-        if (!record->event.pressed) {
-          layer_on(_QWERTY_JA);
-          return true;
-        }
-      }
-      return true;
+      break;
     case R_DARW:
       if (record->event.pressed) {
         SEND_STRING("=>");
