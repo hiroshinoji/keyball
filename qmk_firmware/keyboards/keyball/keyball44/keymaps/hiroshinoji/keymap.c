@@ -46,13 +46,13 @@ enum my_keycodes {
 #define ALT_ENT RALT_T(KC_ENT)
 #define SCRL_COMM LT(_SCROLL, KC_COMM)
 #define SFT_SPC RSFT_T(KC_SPC)
-#define SFT_PLS LSFT_T(KC_PLUS)
 #define NUM_MINS LT(_NUM_PAD, KC_MINS)
 #define SYM_TAB LT(_SYMBOL1, KC_TAB)
 #define LGUI_BSPC LGUI_T(KC_BSPC)  // currently unused because this key combination can be a shortcut.
 #define L_NUM MO(_NUM_PAD)
 #define L_SYM2 MO(_SYMBOL2)
 #define L_SYM3 MO(_SYMBOL3)
+#define SYM2_UND LT(_SYMBOL2, KC_UNDS)
 
 #define MCTL LCTL(KC_UP)
 #define LUNCPAD LGUI(KC_LBRC)  // This shortcut (cmd + [) should be on in OS setting.
@@ -75,17 +75,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_SYMBOL1] = LAYOUT_universal(
-    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , KC_LBRC  , KC_RBRC  , KC_QUOT  , KC_GRV   , XXXXXXX  ,
-    XXXXXXX  , L_NUM    , L_SYM2   , KC_DLR   , KC_AT    , L_SYM3   ,                                        KC_HASH  , KC_LPRN  , KC_RPRN  , KC_MINS  , KC_COLN  , XXXXXXX  ,
-    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        XXXXXXX  , KC_LCBR  , KC_RCBR  , KC_QUES  , KC_BSLS  , XXXXXXX  ,
-                          _______  , _______  , _______  , _______  , _______  ,                  KC_EQL   , KC_UNDS  , _______  , _______  , _______
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        KC_TILD  , KC_CIRC  , KC_QUOT  , KC_DQUO  , KC_GRV   , XXXXXXX  ,
+    XXXXXXX  , L_NUM    , KC_HASH  , KC_DLR   , KC_AT    , L_SYM3   ,                                        KC_ASTR  , KC_LPRN  , KC_RPRN  , KC_MINS  , KC_COLN  , XXXXXXX  ,
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,                                        KC_UNDS  , KC_LCBR  , KC_RCBR  , KC_QUES  , KC_BSLS  , XXXXXXX  ,
+                          _______  , _______  , _______  , _______  , _______  ,                  KC_EQL   , SYM2_UND , _______  , _______  , _______
   ),
 
   [_SYMBOL2] = LAYOUT_universal(
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , KC_DQUO  , KC_TILD  , XXXXXXX  ,
-    _______  , _______  , _______  , _______  , _______  , _______  ,                                        KC_ASTR  , KC_PERC  , KC_CIRC  , KC_PLUS  , _______  , XXXXXXX  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , _______  , _______  , XXXXXXX  ,
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        KC_PERC  , KC_LBRC  , KC_RBRC  , KC_PLUS  , KC_AMPR  , XXXXXXX  ,
     _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , KC_LT    , KC_GT    , KC_EXLM  , KC_PIPE  , XXXXXXX  ,
-                          _______  , _______  , _______  , _______  , _______  ,                  _______  , KC_UNDS  , _______  , _______  , _______
+                          _______  , _______  , _______  , _______  , _______  ,                  _______  , _______  , _______  , _______  , _______
   ),
 
   [_SYMBOL3] = LAYOUT_universal(
@@ -139,6 +139,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case SFT_SPC:
+    case SYM2_UND:
     case SYM_TAB:
       return 170;
     default:
@@ -149,6 +150,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case SFT_SPC:
+        case SYM2_UND:
             return 100;
         default:
             return QUICK_TAP_TERM;
@@ -233,11 +235,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING("+=");
       }
       break;
-    case SFT_PLS:
+    case SYM2_UND:
       if (record->tap.count && record->event.pressed) {
-        // We need to manually define the tap behavior of SFT_PLS, because KC_PLUS requires 16 bits.
-        tap_code16(KC_PLUS);  // Send KC_PLUS on tap
-        return false;         // Return false to ignore further processing of key
+        tap_code16(KC_UNDS);
+        return false;
       }
       break;
   }
